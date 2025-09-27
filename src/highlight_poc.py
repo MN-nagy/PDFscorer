@@ -25,3 +25,5 @@ for page_num in range(len(doc)):
                 print(f"  Author: {author}")
                 print(f"  Highlighted Text: {highlighted_text}")
                 print("-" * 40)
+
+doc.close()
