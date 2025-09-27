@@ -22,3 +22,4 @@ This project uses [uv](https://docs.astral.sh/uv/) for dependency management.
     ```bash
     python src/main.py path/to/MCQ-example.pdf --terminal
     ```
+.....
