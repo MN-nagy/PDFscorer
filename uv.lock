@@ -153,23 +153,6 @@ wheels = [
 ]
 
 [[package]]
-name = "mcqchecker"
-version = "0.1.0"
-source = { virtual = "." }
-dependencies = [
-    { name = "pdfplumber" },
-    { name = "pymupdf" },
-    { name = "pytest" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "pdfplumber", specifier = ">=0.11.7" },
-    { name = "pymupdf", specifier = ">=1.26.4" },
-    { name = "pytest", specifier = ">=8.4.2" },
-]
-
-[[package]]
 name = "packaging"
 version = "25.0"
 source = { registry = "https://pypi.org/simple" }
@@ -203,6 +186,23 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/6d/0d/4135821aa7b1a0b77a29fac881ef0890b46b0b002290d04915ed7acc0043/pdfplumber-0.11.7.tar.gz", hash = "sha256:fa67773e5e599de1624255e9b75d1409297c5e1d7493b386ce63648637c67368", size = 115518, upload-time = "2025-06-12T11:30:49.864Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/db/e0/52b67d4f00e09e497aec4f71bc44d395605e8ebcea52543242ed34c25ef9/pdfplumber-0.11.7-py3-none-any.whl", hash = "sha256:edd2195cca68bd770da479cf528a737e362968ec2351e62a6c0b71ff612ac25e", size = 60029, upload-time = "2025-06-12T11:30:48.89Z" },
+]
+
+[[package]]
+name = "pdfscorer"
+version = "0.1.0"
+source = { virtual = "." }
+dependencies = [
+    { name = "pdfplumber" },
+    { name = "pymupdf" },
+    { name = "pytest" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "pdfplumber", specifier = ">=0.11.7" },
+    { name = "pymupdf", specifier = ">=1.26.4" },
+    { name = "pytest", specifier = ">=8.4.2" },
 ]
 
 [[package]]

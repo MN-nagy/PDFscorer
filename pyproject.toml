@@ -1,5 +1,5 @@
 [project]
-name = "MCQchecker"
+name = "pdfscorer"
 version = "0.1.0"
 description = "Provide an answered MCQ pdf and this program will provide the grad as will as the answers with explination for the one's that you got wrong"
 readme = "README.md"

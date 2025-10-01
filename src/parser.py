@@ -37,7 +37,7 @@ def parse_mcqs_all(doc) -> dict:
             # Match model answer
             model_match = re.match(r"^Model Answer.*$", line)
             if model_match:
-                model_answer = 200 + current_chapter
+                model_answer = 200
                 if model_answer not in mcqs:
                     mcqs[model_answer] = {}
                 continue
