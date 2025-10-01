@@ -1,10 +1,3 @@
-import fitz
-
-pdf_file = "/mnt/e/ArchForTests/MCQ-example.pdf"
-
-doc = fitz.open(pdf_file)
-
-
 def extract_highlight(doc):
     annots = []
     for page_num in range(len(doc)):
@@ -26,6 +19,3 @@ def extract_highlight(doc):
 
     annots.sort(key=lambda h: (h["page_num"], h["rect"].y1))
     return annots
-
-
-doc.close()
