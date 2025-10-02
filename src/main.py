@@ -1,7 +1,7 @@
 import argparse
 import fitz
 from parser import parse_mcqs, parse_mcqs_all
-from highlight_poc import extract_highlight, extract_highlight_all
+from highlight_poc import extract_highlight
 
 
 def main():
@@ -16,7 +16,7 @@ def main():
     parser.add_argument(
         "--page-end",
         type=int,
-        default=None,
+        default=0,
         help="Page number to end at (default: end of document)",
     )
     parser.add_argument(
@@ -42,15 +42,12 @@ def main():
     # Handle PDF logic
     doc = fitz.open(args.pdf_file)
 
-    # if args.whole:
-    #     mcqs = parse_mcqs_all(doc)
-    #     highlights = extract_highlight_all(doc)
-    # else:
-    #     mcqs = parse_mcqs(doc, args.page_start, args.page_end)
-    #     highlights = extract_highlight(doc, args.page_start, args.page_end)
+    page_num_end = args.page_end
+    if not args.page_end:
+        page_num_end = len(doc)
 
     mcqs = parse_mcqs_all(doc)
-    highlights = extract_highlight_all(doc)
+    highlights = extract_highlight(doc, args.page_start, page_num_end)
 
     doc.close()
 

@@ -1,10 +1,13 @@
 import unittest
 import fitz
 from src.parser import parse_mcqs, parse_mcqs_all
+from pathlib import Path
 
 
-pdf_file = "/mnt/e/ArchForTests/MCQ-example1.pdf"
-pdf_file_sec = "/mnt/e/ArchForTests/MCQ-example1-1-17.pdf"
+script_dir = Path(__file__).resolve().parent
+
+pdf_file = script_dir / "MCQ-example1.pdf"
+pdf_file_sec = script_dir / "MCQ-example1-1-17.pdf"
 
 doc = fitz.open(pdf_file)
 doc_sec = fitz.open(pdf_file_sec)
@@ -39,8 +42,6 @@ class TestUtils(unittest.TestCase):
                 "d": "Physical storefront only",
             },
         }
-
-        print(parsed)
 
         self.assertEqual(next(iter(parsed.keys())), "2")
         self.assertEqual(len(parsed["2"].keys()), 86)

@@ -3,9 +3,11 @@ from src.utils import number_answers
 from src.parser import parse_mcqs
 from src.highlight_poc import extract_highlight
 import fitz
+from pathlib import Path
 
+script_dir = Path(__file__).resolve().parent
 
-pdf_file = "/mnt/e/ArchForTests/MCQ-example1-1-17.pdf"
+pdf_file = script_dir / "MCQ-example1-1-17.pdf"
 
 doc = fitz.open(pdf_file)
 
