@@ -25,7 +25,7 @@ def parse_mcqs_all(doc) -> dict:
             # Match chapter "Chapter 1"
             chapter_match = re.match(r"^Chapter\s+(\d+)", line)
             if chapter_match:
-                current_chapter = int(chapter_match.group(1))
+                current_chapter = chapter_match.group(1)
                 if current_chapter not in mcqs:
                     mcqs[current_chapter] = {}
                 continue
@@ -39,7 +39,7 @@ def parse_mcqs_all(doc) -> dict:
             if model_match:
                 model_answer = 200
                 if model_answer not in mcqs:
-                    mcqs[model_answer] = {}
+                    mcqs[current_chapter][model_answer] = {}
                 continue
 
             if model_answer:
@@ -48,7 +48,12 @@ def parse_mcqs_all(doc) -> dict:
                     number = int(ans_match.group(1))
                     answer = ans_match.group(2).lower()
                     text = ans_match.group(3)
-                    mcqs[model_answer][number] = {"answer": answer, "text": text}
+                    mcqs[current_chapter][model_answer][number] = {
+                        "answer": answer,
+                        "text": text,
+                    }
+                    last_seen = "model"
+                    continue
 
             # Match question start "1)"
             q_match = re.match(r"^(\d+)\)\s*(.+)$", line)
@@ -81,6 +86,11 @@ def parse_mcqs_all(doc) -> dict:
                 elif last_seen == "option":
                     last_key = list(current_options.keys())[-1]
                     current_options[last_key] += " " + line.strip()
+                elif last_seen == "model":
+                    last_key = list(mcqs[current_chapter][model_answer].keys())[-1]
+                    mcqs[current_chapter][model_answer][last_key]["text"] += (
+                        " " + line.strip()
+                    )
 
         if current_q is not None and current_chapter is not None:
             mcqs[current_chapter][current_q] = {
@@ -130,6 +140,8 @@ def parse_mcqs(doc, page_num_start=0, page_num_end=0) -> dict:
                     answer = ans_match.group(2).lower()
                     text = ans_match.group(3)
                     mcqs[model_answer][number] = {"answer": answer, "text": text}
+                    last_seen = "model"
+                    continue
 
             # Match question start "1)"
             q_match = re.match(r"^(\d+)\)\s*(.+)$", line)
@@ -162,6 +174,9 @@ def parse_mcqs(doc, page_num_start=0, page_num_end=0) -> dict:
                 elif last_seen == "option":
                     last_key = list(current_options.keys())[-1]
                     current_options[last_key] += " " + line.strip()
+                elif last_seen == "model":
+                    last_key = list(mcqs[model_answer].keys())[-1]
+                    mcqs[model_answer][last_key]["text"] += " " + line.strip()
 
         if current_q is not None:
             mcqs[current_q] = {
