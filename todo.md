@@ -9,3 +9,6 @@
 [ ] match (highlighted question answer (aka. list_of_answers)) to model_answer for the chapter
 [ ] get score and answers working
 [ ] implement chaching for pdfs
+
+
+#### probably gonna find another approach other than the nubmer_highlights thing
