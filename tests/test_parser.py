@@ -1,6 +1,6 @@
 import unittest
 import fitz
-from src.parser import parse_mcqs, parse_mcqs_all
+from src.parser import parse_mcqs_all
 from pathlib import Path
 
 
@@ -14,21 +14,6 @@ doc_sec = fitz.open(pdf_file_sec)
 
 
 class TestUtils(unittest.TestCase):
-
-    def test_parsing_mcqs(self):
-        parsed = parse_mcqs(doc, 0, 1)
-
-        mcq_one = {
-            "question": "Which of the following is a feature of a sell-side e-marketplace?",
-            "options": {
-                "a": "Open marketplace for all buyers",
-                "b": "Company sells directly to qualified buyers",
-                "c": "Multi-vendor auction",
-                "d": "Physical storefront only",
-            },
-        }
-        self.assertEqual(parsed[1], mcq_one)
-        self.assertEqual(len(parsed.keys()), 5)
 
     def test_parse_modle_answer(self):
         parsed = parse_mcqs_all(doc_sec)

@@ -1,6 +1,6 @@
 import unittest
-from src.utils import number_answers
-from src.parser import parse_mcqs
+from src.utils import match_highlight_question, similarity
+from src.parser import parse_mcqs_all
 from src.highlight_poc import extract_highlight
 import fitz
 from pathlib import Path
@@ -14,21 +14,42 @@ doc = fitz.open(pdf_file)
 
 class TestUtils(unittest.TestCase):
 
-    def test_number_list(self):
-        mcqs = parse_mcqs(doc, 0, 1)
-        highlighted = extract_highlight(doc, 0, 1)
+    def test_similar(self):
+        sim = similarity(
+            "b) Company sells directly to qualified buyers",
+            "b) Company sells directly to qualified buyers",
+        )
 
-        numbered_q = number_answers(mcqs, highlighted)
+        sim_two = similarity(
+            "b) Company sells directly to qualified buyers",
+            "c) Combine both digital and physical operations",
+        )
 
-        numbered_q_example = {
-            1: "b) Company sells directly to qualified buyers",
-            2: "b) Operate only locally",
-            3: "c) Combine both digital and physical operations",
-            4: "b) Enhancing social media likes",
-            5: "c) Increase the cost of marketing",
+        self.assertEqual(sim, 1)
+        self.assertEqual(sim_two, 0)
+
+    def test_match_highlight_question(self):
+        mcqs = parse_mcqs_all(doc, 0, 2)
+        highlighted = extract_highlight(doc, 0, 2)
+
+        matched = match_highlight_question(mcqs, highlighted)
+
+        example = {
+            "2": {
+                1: "b",
+                2: "b",
+                3: "c",
+                4: "b",
+                5: "c",
+                6: "c",
+                7: -1,
+                8: -1,
+                9: -1,
+                10: -1,
+            }
         }
 
-        self.assertEqual(numbered_q, numbered_q_example)
+        self.assertEqual(example, matched)
 
 
 if __name__ == "__main__":
