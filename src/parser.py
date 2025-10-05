@@ -1,13 +1,13 @@
 import re
 
 
-def parse_mcqs_all(doc, start: int = 0, end: int = 0) -> dict:
+def parse_mcqs_all(doc, start: int = 0, end: int = 0) -> tuple[dict, list]:
 
     if end == 0:
         end = len(doc)
 
     if start >= end or start < 0 or end < 0:
-        return {}
+        return {}, []
 
     mcqs = {}
     current_chapter = None
@@ -16,6 +16,8 @@ def parse_mcqs_all(doc, start: int = 0, end: int = 0) -> dict:
     q_text = ""
     current_options = {}
     last_seen = ""
+
+    chapter_page = []
 
     for page_num in range(start, end):
         page = doc[page_num]
@@ -31,6 +33,7 @@ def parse_mcqs_all(doc, start: int = 0, end: int = 0) -> dict:
             # Match chapter "Chapter 1"
             chapter_match = re.match(r"^Chapter\s+(\d+)", line)
             if chapter_match:
+                chapter_page.append(page_num)
                 current_chapter = chapter_match.group(1)
                 if current_chapter not in mcqs:
                     mcqs[current_chapter] = {}
@@ -105,4 +108,4 @@ def parse_mcqs_all(doc, start: int = 0, end: int = 0) -> dict:
             }
             current_q = None
 
-    return mcqs
+    return mcqs, chapter_page

@@ -23,7 +23,7 @@ class TestUtils(unittest.TestCase):
         self.assertEqual(sim, 1)
 
     def test_match_highlight_question(self):
-        mcqs = parse_mcqs_all(doc, 0, 2)
+        mcqs, pages = parse_mcqs_all(doc, 0, 2)
         highlighted = extract_highlight(doc, 0, 2)
 
         matched = match_highlight_question(mcqs, highlighted)
@@ -44,6 +44,7 @@ class TestUtils(unittest.TestCase):
         }
 
         self.assertEqual(example, matched)
+        self.assertEqual(pages[0], 0)
 
 
 if __name__ == "__main__":

@@ -44,3 +44,28 @@ def match_highlight_question(mcqs: dict, answers: list) -> dict:
                 matched[chapter][best_match["q_num"]] = best_match["q_answer"]
 
     return matched
+
+
+def get_page_from_to(match: str, keys: list) -> tuple[int, int]:
+    start = 0
+    end = 0
+
+    indecator = 0
+    for key in keys:
+        if match == key:
+            break
+        indecator += 1
+
+    # wrong chapter number proccess whole chapter
+    if indecator > len(keys) - 1:
+        end = 0
+    # proccess last chapter
+    elif indecator == len(keys) - 1:
+        start = indecator
+        end = 0
+    # proccess any other chapter
+    elif indecator < len(keys) - 1:
+        start = indecator
+        end = indecator + 1
+
+    return start, end
