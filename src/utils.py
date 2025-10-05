@@ -5,40 +5,11 @@ def normalize_text(s: str) -> str:
     return s.strip(" :.,;'\"").lower()
 
 
-def similarity(a: str, b: str) -> bool:
-    sim = SequenceMatcher(None, normalize_text(a), normalize_text(b)).ratio()
-    if sim >= 0.7:
-        return True
-    return False
-
-
-def match_highlight_question(mcqs: dict, answers: list) -> dict:
-    matched = {}
-    answer_index = 0
-
-    for chapter in mcqs.keys():
-        if chapter == 200:
-            continue
-        if chapter not in matched:
-            matched[chapter] = {}
-        for question in mcqs[chapter].keys():
-            matched[chapter][question] = -1
-            if answer_index >= len(answers):
-                continue
-            for option, text in mcqs[chapter][question]["options"].items():
-                if similarity(text, answers[answer_index]):
-                    matched[chapter][question] = option
-                    answer_index += 1
-                    break
-
-    return matched
-
-
-def score(a: str, b: str) -> float:
+def similarity(a: str, b: str) -> float:
     return SequenceMatcher(None, normalize_text(a), normalize_text(b)).ratio()
 
 
-def match_highlight_fallback(mcqs: dict, answers: list) -> dict:
+def match_highlight_question(mcqs: dict, answers: list) -> dict:
     matched = {}
 
     for chapter in mcqs.keys():
@@ -57,7 +28,7 @@ def match_highlight_fallback(mcqs: dict, answers: list) -> dict:
             }
             for question in mcqs[chapter].keys():
                 for option, text in mcqs[chapter][question]["options"].items():
-                    q_score = score(text, highlight)
+                    q_score = similarity(text, highlight)
                     # to skip if a perfect match is found
                     if q_score >= 1:
                         matched[chapter][question] = option

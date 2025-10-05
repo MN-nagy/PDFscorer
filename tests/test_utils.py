@@ -20,13 +20,7 @@ class TestUtils(unittest.TestCase):
             "b) Company sells directly to qualified buyers",
         )
 
-        sim_two = similarity(
-            "b) Company sells directly to qualified buyers",
-            "c) Combine both digital and physical operations",
-        )
-
         self.assertEqual(sim, 1)
-        self.assertEqual(sim_two, 0)
 
     def test_match_highlight_question(self):
         mcqs = parse_mcqs_all(doc, 0, 2)
