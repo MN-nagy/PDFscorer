@@ -1,4 +1,5 @@
-PDF Scorer 📝
+PDF Scorer 📝:
+
 PDF Scorer is a command-line tool that automatically grades multiple-choice question (MCQ) quizzes from a PDF file. It intelligently parses questions, options, and model answer keys directly from the document's text. It then matches a user's highlighted answers to the corresponding questions to calculate a score and provide a detailed report on any incorrect answers.
 
 ## Features
