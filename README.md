@@ -18,7 +18,7 @@ PDF Scorer is a command-line tool that automatically grades multiple-choice ques
 ## Installation
 Clone the repository:
 ```bash
-git clone <your-repository-url>
+git clone https://github.com/MN-nagy/PDFscorer.git
 cd PDFscorer
 ```
 
