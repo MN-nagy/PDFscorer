@@ -1,9 +1,10 @@
 import argparse
+import os
 import fitz
 from parser import parse_mcqs_all
 from highlight_poc import extract_highlight
 from quiz import grade
-from utils import get_page_from_to
+from utils import get_page_from_to, log_data
 
 
 def main():
@@ -12,27 +13,25 @@ def main():
     parser.add_argument("pdf_file", help="Path to the PDF file")
 
     parser.add_argument(
-        "--chapter-num",
+        "chapter_num",
         type=int,
+        nargs="?",
         default=0,
         help="Chapter number to get score for (proccess whole file if not provided)",
     )
 
     parser.add_argument(
-        "-f", "--file", action="store_true", help="Show score and answers in a file"
-    )
-
-    parser.add_argument(
-        "-t",
-        "--terminal",
+        "-w",
+        "--wrong",
         action="store_true",
-        help="Show score and answers in terminal",
+        help="Print wrongly answered questins with answers",
     )
 
     args = parser.parse_args()
+    file_path = os.path.abspath(args.pdf_file)
 
     # Handle PDF logic
-    doc = fitz.open(args.pdf_file)
+    doc = fitz.open(file_path)
 
     mcqs, chapter_pages = parse_mcqs_all(doc)
     highlights_to_proccess = []
@@ -49,9 +48,13 @@ def main():
 
     grades = grade(mcq_to_proccess, highlights_to_proccess)
 
-    for key, value in grades.items():
-        # TODO: implement logic to log this info
-        pass
+    if args.chapter_num:
+        chapter_answers = grades[str(args.chapter_num)]
+        log_data(str(args.chapter_num), chapter_answers, args.wrong)
+    else:
+        for chapter in grades:
+            chapter_answers = grades[chapter]
+            log_data(chapter, chapter_answers, args.wrong)
 
     doc.close()
 

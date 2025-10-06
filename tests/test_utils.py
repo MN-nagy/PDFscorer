@@ -36,10 +36,10 @@ class TestUtils(unittest.TestCase):
                 4: "b",
                 5: "c",
                 6: "c",
-                7: -1,
-                8: -1,
-                9: -1,
-                10: -1,
+                7: "No Answer",
+                8: "No Answer",
+                9: "No Answer",
+                10: "No Answer",
             }
         }
 

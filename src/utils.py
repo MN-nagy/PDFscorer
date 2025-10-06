@@ -13,11 +13,9 @@ def match_highlight_question(mcqs: dict, answers: list) -> dict:
     matched = {}
 
     for chapter in mcqs.keys():
-        if chapter == 200:
-            continue
         if chapter not in matched:
             matched[chapter] = {
-                q_num: -1 for q_num in mcqs[chapter].keys() if q_num != 200
+                q_num: "No Answer" for q_num in mcqs[chapter].keys() if q_num != 200
             }
         for highlight in answers:
             flag = 0
@@ -27,6 +25,8 @@ def match_highlight_question(mcqs: dict, answers: list) -> dict:
                 "q_answer": "",
             }
             for question in mcqs[chapter].keys():
+                if question == 200:
+                    continue
                 for option, text in mcqs[chapter][question]["options"].items():
                     q_score = similarity(text, highlight)
                     # to skip if a perfect match is found
@@ -69,3 +69,29 @@ def get_page_from_to(match: str, keys: list) -> tuple[int, int]:
         end = indecator + 1
 
     return start, end
+
+
+def log_data(chapter: str, chapter_answers: dict, wrong: bool) -> None:
+
+    print(f" -- Chapter {chapter} grades")
+
+    print(" " * 20)
+    print(f" Score: {int(chapter_answers["score"])}%")
+    print(f" Correct Answers: {chapter_answers["correct"]} ")
+    print(f" Total Questions: {chapter_answers["total"]} ")
+
+    if wrong:
+        print(f" Wrongly Answered Questions: ")
+        print(" " * 20)
+
+        for answer in chapter_answers["wrong_answers"]:
+            print(" " * 20)
+
+            print(f" Question Number: {answer["question_number"]}")
+            print(f" Question: {answer["question_text"]}")
+            print(f" Your Answer: {answer["user_answer"]}")
+            print(f" Correct Answer: {answer["correct_answer"]}")
+            print(f"  -> {answer["explination"]}")
+
+            print("_" * 20)
+            print(" " * 20)
